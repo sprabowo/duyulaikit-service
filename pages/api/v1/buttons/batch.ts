@@ -86,13 +86,13 @@ export default async function (req: VercelRequest, res: VercelResponse) {
       })
       switch (type) {
         case "like_button":
-          votedValue = isUserVoteExist.hasLiked
+          votedValue = isUserVoteExist?.hasLiked
           break
         case "updown_button":
-          votedValue = isUserVoteExist.voteDirection
+          votedValue = isUserVoteExist?.voteDirection
           break
         case "clap_button":
-          votedValue = isUserVoteExist.voteDirection === 1
+          votedValue = isUserVoteExist?.voteDirection === 1
           break
         default:
           break
