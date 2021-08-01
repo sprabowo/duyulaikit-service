@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String                @id
+  userVote      UserVote[]
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model UserVote {
+  id            String                @id @default(uuid())
+  userId        String                @map("user_id")
+  user          User?                 @relation(fields: [userId], references: [id])
+  voteId        String                @map("vote_id")
+  vote          Vote?                 @relation(fields: [voteId], references: [id])
+  voteDirection Int?
+  hasLiked      Boolean?                 
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+
+  @@map("user_votes")
+}
+
+model Vote {
+  id            String                @id @default(uuid())
+  slug          String              
+  namespace     String               
+  total         Int             
+  type          String                
+  userVote      UserVote[]
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+
+  @@map("votes")
+}
